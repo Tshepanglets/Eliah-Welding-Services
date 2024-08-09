@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/Eliah Logo.png" type="image/x-icon">
+    <title>Eliah Weling Services</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+  </head>
+  <body>
+
+    <header>
+      <nav>
+        <div class="nav_logo">
+          <a href="#">
+            <img src="images/Eliah Logo.png" alt="Logo" />
+            <h3>Eliah Welding Services</h3>
+          </a>
+        </div>
+
+        <input type="checkbox" id="click" />
+        <label for="click">
+          <i class="menu_btn bx bx-menu"></i>
+          <i class="close_btn bx bx-x"></i>
+        </label>
+
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+<section class="about_us" id="about">
+  <div class="section_container">
+    <div class="about_container">
+      <div class="text_section">
+        <h2 class="section_title">Our Gallery</h2>
+        <p>
+          Welcome to Eliah Welding Services' gallery page, where
+           craftsmanship meets creativity in metalwork. Explore our
+            showcase of bespoke welded artistry, from intricate sculptures 
+            to functional architectural elements. Each piece embodies precision 
+            and passion, reflecting our commitment to excellence. Whether seeking
+             inspiration or commissioning a masterpiece, discover the artistry and 
+             innovation that define Eliah Welding Services.</p>
+             <br>
+             <p> Enjoy exploring our collection and
+             envision the possibilities for your own unique project!</p>
+      </div>
+      <div class="image_section">
+        <img src="images/Gallery.jpg"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about_ushomegal" id="about_ushomegal">
+  <div class="section_containerhomegal">
+    <div class="about_containerhomegal">
+      <div class="container">
+        <div class="text_sectionhomegal">
+          <h2 class="section_title">Discover Welding Proficiency</h2>
+          <p> Explore our extensive range of welding services in action with our interactive
+             slideshow below. You'll see examples of our precision in custom metalwork,
+              structural welding, and on-site repairs. Each slide highlights our commitment 
+              to quality and detail, demonstrating why Eliah Welding Services is a trusted
+               name in the industry.</p>
+              </div>
+        <div class="slider-wrapper">
+          <button id="prev-slide" class="slide-button material-symbols-rounded">
+            chevron_left
+          </button>
+          <ul class="image-list">
+            <li><img class="image-item" src="images/img1.jpg" /></li>
+            <li><img class="image-item" src="images/img2.jpg" /></li>
+            <li><img class="image-item" src="images/img3.jpg"  /></li>
+            <li><img class="image-item" src="images/img4.jpg" /></li>
+            <li><img class="image-item" src="images/img5.jpg"  /></li>
+            <li><img class="image-item" src="images/img6.jpg"/></li>
+            <li><img class="image-item" src="images/img7.jpg"  /></li>
+            <li><img class="image-item" src="images/img8.jpg" /></li>
+            <li><img class="image-item" src="images/img9.jpg" /></li>
+          </ul>
+          <button id="next-slide" class="slide-button material-symbols-rounded">
+            chevron_right
+          </button>
+        </div>
+        <div class="slider-scrollbar">
+          <div class="scrollbar-track">
+            <div class="scrollbar-thumb"></div>
+          </div>
+        </div>
+      </div>
+
+<script>
+      const initSlider = () => {
+        const imageList = document.querySelector(".slider-wrapper .image-list");
+        const slideButtons = document.querySelectorAll(".slider-wrapper .slide-button");
+        const sliderScrollbar = document.querySelector(".container .slider-scrollbar");
+        const scrollbarThumb = sliderScrollbar.querySelector(".scrollbar-thumb");
+        const maxScrollLeft = imageList.scrollWidth - imageList.clientWidth;
+        
+        scrollbarThumb.addEventListener("mousedown", (e) => {
+            const startX = e.clientX;
+            const thumbPosition = scrollbarThumb.offsetLeft;
+            const maxThumbPosition = sliderScrollbar.getBoundingClientRect().width - scrollbarThumb.offsetWidth;
+            
+            const handleMouseMove = (e) => {
+                const deltaX = e.clientX - startX;
+                const newThumbPosition = thumbPosition + deltaX;
+    
+                const boundedPosition = Math.max(0, Math.min(maxThumbPosition, newThumbPosition));
+                const scrollPosition = (boundedPosition / maxThumbPosition) * maxScrollLeft;
+                
+                scrollbarThumb.style.left = `${boundedPosition}px`;
+                imageList.scrollLeft = scrollPosition;
+            }
+    
+            const handleMouseUp = () => {
+                document.removeEventListener("mousemove", handleMouseMove);
+                document.removeEventListener("mouseup", handleMouseUp);
+            }
+    
+            document.addEventListener("mousemove", handleMouseMove);
+            document.addEventListener("mouseup", handleMouseUp);
+        });
+  
+        slideButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const direction = button.id === "prev-slide" ? -1 : 1;
+                const scrollAmount = imageList.clientWidth * direction;
+                imageList.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            });
+        });
+    
+        const handleSlideButtons = () => {
+            slideButtons[0].style.display = imageList.scrollLeft <= 0 ? "none" : "flex";
+            slideButtons[1].style.display = imageList.scrollLeft >= maxScrollLeft ? "none" : "flex";
+        }
+    
+        const updateScrollThumbPosition = () => {
+            const scrollPosition = imageList.scrollLeft;
+            const thumbPosition = (scrollPosition / maxScrollLeft) * (sliderScrollbar.clientWidth - scrollbarThumb.offsetWidth);
+            scrollbarThumb.style.left = `${thumbPosition}px`;
+        }
+    
+        imageList.addEventListener("scroll", () => {
+            updateScrollThumbPosition();
+            handleSlideButtons();
+        });
+    }
+    
+    window.addEventListener("resize", initSlider);
+    window.addEventListener("load", initSlider);
+    </script>
+       
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section class="services" id="service">
+        <h2 class="section_title">Explore Our Portfolio</h2>
+        <div class="section_container">
+          <div class="service_container">
+            <div class="services_items">
+              <img src="images/RightView.jpg"/>
+              <div class="services_text">
+                <h3>Staircases</h3>
+                <p>
+                  Customize your space with our staircase welding services, adding style and function to your home or business.
+                </p>
+              </div>
+            </div>
+            <div class="services_items">
+              <img src="images/IndoorBar.jpg"/>
+              <div class="services_text">
+                <h3>Custom Metalwork</h3>
+                <p>
+                  Our custom metalwork services bring your unique vision to life, creating bespoke pieces that perfectly suit your space.
+                </p>
+              </div>
+            </div>
+            <div class="services_items">
+              <img src="images/SteelBar.jpg"/>
+              <div class="services_text">
+                <h3>Fences</h3>
+                <p>Define your space and add security with our fencing welding services, crafted with precision and attention to detail.</p>
+              </div>
+            </div>
+            <div class="services_items">
+              <img src="images/LeftView.jpg"/>
+              <div class="services_text">
+                <h3>Handrails</h3>
+                <p>
+                  With our handrail welding services, which are carefully built to complement your space, you can ensure both elegance and safety.
+                </p>
+              </div>
+            </div>
+            <div class="services_items">
+              <img
+                src="images/BlackGate.jpg"/>
+              <div class="services_text">
+                <h3>Gates</h3>
+                <p>Secure your property with our custom-built gates, crafted with skill and precision for a beautiful, durable finish.</p>
+              </div>
+            </div>
+            <div class="services_items">
+              <img src="images/Balcony.jpg"/>
+              <div class="services_text">
+                <h3>Balconies</h3>
+                <p>
+                  Create a stunning outdoor retreat with our custom balcony welding services, designed to elevate your home.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+     <footer>
+      <div class="section_container">
+        <div class="footer_section">
+          <div class="footer_logo">
+            <a href="index.html">
+              <img src="images/Eliah Logo.png" alt="Logo" />
+              <h2>Eliah Welding Services</h2>
+              <small> <a href="https://www.freepik.com/free-photo/man-protective-mask-is-cutting-metal-sparks-are-flying-away_25130358.htm#fromView=search&page=1&position=32&uuid=cb6a6a7e-9c4a-4e1a-86f9-f365aead6d9c">Image by fxquadro on Freepik</a>
+                <a href="https://www.freepik.com/free-photo/cutting-metal-with-plasma-equipment_7820744.htm#fromView=search&page=1&position=27&uuid=cb6a6a7e-9c4a-4e1a-86f9-f365aead6d9c">Image by cookie_studio on Freepik</a>
+                <a href="https://www.freepik.com/free-photo/experienced-worker-is-repairing-metal-parts-machine-tool-busy-factory_25130301.htm#fromView=image_search_similar&page=1&position=1&uuid=c69bbe8f-da38-41ec-902e-4caa04037dcc">Image by fxquadro on Freepik</a>
+                <a href="https://www.freepik.com/free-photo/carpenter-male-dressed-safety-yellow-cap-works-with-chain-saw-garage_26369566.htm#fromView=image_search_similar&page=1&position=31&uuid=c69bbe8f-da38-41ec-902e-4caa04037dcc">Image by fxquadro on Freepik</a>
+                <a href="https://www.freepik.com/free-photo/male-mechanic-working-his-workshop_14312917.htm#fromView=search&page=2&position=1&uuid=c69bbe8f-da38-41ec-902e-4caa04037dcc">Image by freepik</a>
+                <a href="https://www.freepik.com/free-photo/portrait-male-carpenter-wearing-ear-defender-working-workshop_3564584.htm#from_view=detail_alsolike">Image by freepik</a>
+                <a href="https://www.freepik.com/free-photo/man-working-with-argon-welding-machine-garage_24904724.htm#fromView=search&page=2&position=19&uuid=c69bbe8f-da38-41ec-902e-4caa04037dcc">Image by ArthurHidden on Freepik</a>
+                <a href="https://www.freepik.com/free-photo/medium-shot-man-using-tool_35021867.htm#from_view=detail_alsolike">Image by freepik</a>
+                <a href="https://www.freepik.com/free-photo/bike-creation-workshop_12689070.htm#from_view=detail_alsolike">Image by freepik</a>
+              </small>
+    
+          </div>
+          <div class="useful_links">
+            <h3>Site Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="services.html">Services</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="contact_us">
+            <h3>Contact</h3>
+            <ul>
+              <li>
+                <i class="bx bx-current-location"></i>
+                <span> Unit 5, Coleman Industrial Park, <br>Coleman Street, Elsies River, 7490.</span>
+              </li>
+              <li>
+                <i class="bx bxs-phone-call"></i> <span>084 354 4695</span>
+              </li>
+              <li>
+                <i class="bx bxs-time-five"></i>
+                <span>Mon-Sun: Open 24/7</span>
+              </li>
+            </ul>
+          </div>
+          <div class="follow_us">
+            <h3>Social Media</h3>
+            <a href="https://www.facebook.com/EliahWelders/" target="_blank" rel="noopener noreferrer"><i class="bx bxl-facebook-circle"></i></a>
+            <a href="https://wa.me/0843544695?text=Eliah%20Welding%20Services" target="_blank" rel="noopener noreferrer"><i class="bx bxl-whatsapp"></i></a>
+            <a href="https://www.instagram.com/mutambara.eliah/?igsh=MWd3NGdtajczbm16cw%3D%3D" target="_blank" rel="noopener noreferrer"><i class="bx bxl-instagram-alt"></i></a>
+            <div class="copy_right"><small><p>Copyright &copy; 2024 Kinetic Canvas</p></small></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+  </body>
+</html>
